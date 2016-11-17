@@ -195,8 +195,14 @@ function googleTranslateElementInit() {
 
 								</li>
                     <li>
-                        <a href="about.html">About</a>
-						<!--<a href="about.html"><?php #select $session from limba where id==1 ?></a>-->
+                        <a href="about.html">
+							<?php
+								require "bin/connect.php";
+								$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 4");
+								$row = $result->fetch_assoc();
+								echo $row[$_SESSION["language"]];
+							?>
+						</a>
 					</li>
                     <li>
                         <a href="contact.html">Contact</a>
@@ -204,10 +210,24 @@ function googleTranslateElementInit() {
                      <li>
                         <a id="loginButton" style="cursor:pointer; display:block;" data-toggle="modal" data-target=".first">Login</a>
 					<li>
-                        <a id="registerButton" style="cursor:pointer; display:block;" data-toggle="modal" data-target="#registerDiv">Register</a>
+                        <a id="registerButton" style="cursor:pointer; display:block;" data-toggle="modal" data-target="#registerDiv">
+							<?php
+								require "bin/connect.php";
+								$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 5");
+								$row = $result->fetch_assoc();
+								echo $row[$_SESSION["language"]];
+							?>
+						</a>
                     </li>
 					<li>
-                        <a id="newMovieButton" style="cursor:pointer; display:none;" data-toggle="modal" data-target=".third">New movie</a>
+                        <a id="newMovieButton" style="cursor:pointer; display:none;" data-toggle="modal" data-target=".third">
+							<?php
+								require "bin/connect.php";
+								$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 7");
+								$row = $result->fetch_assoc();
+								echo $row[$_SESSION["language"]];
+							?>
+						</a>
                     </li>
 					<li>
                         <a id="logoutButton" onclick="logout()" style="cursor:pointer; display:none;">Logout</a>
@@ -250,19 +270,40 @@ function googleTranslateElementInit() {
             <div class="item active">
                 <div class="fill" style="background-image:url('images/movieKitten01.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Welcome to MovieKitten</h2>
+                    <h2>
+						<?php
+							require "bin/connect.php";
+							$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
+							$row = $result->fetch_assoc();
+							echo $row[$_SESSION["language"]];
+						?>
+					</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill" style="background-image:url('images/colage01.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Share your thoughts about the latest blockbuster</h2>
+                    <h2>
+						<?php
+							require "bin/connect.php";
+							$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 2");
+							$row = $result->fetch_assoc();
+							echo $row[$_SESSION["language"]];
+						?>
+					</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill" style="background-image:url('images/convo01.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Comment on other people's reviews</h2>
+                    <h2>
+						<?php
+							require "bin/connect.php";
+							$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 3");
+							$row = $result->fetch_assoc();
+							echo $row[$_SESSION["language"]];
+						?>
+					</h2>
                 </div>
             </div>
         </div>
@@ -283,7 +324,12 @@ function googleTranslateElementInit() {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <?php echo "Welcome to MovieKitten/Bine..."; ?>
+                    <?php
+						require "bin/connect.php";
+						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
+						$row = $result->fetch_assoc();
+						echo $row[$_SESSION["language"]];
+					?>
                 </h1>
             </div>
             <div class="col-md-4">
