@@ -76,12 +76,26 @@ function googleTranslateElementInit() {
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">New movie</h4>
+								<h4 class="modal-title" id="myModalLabel">
+									<?php
+										require "bin/connect.php";
+										$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 7");
+										$row = $result->fetch_assoc();
+										echo $row[$_SESSION["language"]];
+									?>
+								</h4>
 								</div>
 							<form class="form-inline">
 								<div class="modal-body">
 											<div class="form-group">
-														<label for="exampleInputFile">Add poster</label>
+														<label for="exampleInputFile">
+															<?php
+																require "bin/connect.php";
+																$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 8");
+																$row = $result->fetch_assoc();
+																echo $row[$_SESSION["language"]];
+															?>
+														</label>
 														<input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
 												</div>
 											<div class="form-group">
@@ -89,13 +103,27 @@ function googleTranslateElementInit() {
 											</div>
 										<br></br>
 											  <div class="form-group">
-														<label for="exampleTextarea">Description</label>
+														<label for="exampleTextarea">
+															<?php
+																require "bin/connect.php";
+																$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 9");
+																$row = $result->fetch_assoc();
+																echo $row[$_SESSION["language"]];
+															?>
+														</label>
 														<textarea class="form-control" id="exampleTextarea" style="width:100%"></textarea>
 													</div>
 													
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary">Submit</button>
+									<button type="submit" class="btn btn-primary">
+										<?php
+											require "bin/connect.php";
+											$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 10");
+											$row = $result->fetch_assoc();
+											echo $row[$_SESSION["language"]];
+										?>
+									</button>
 										</form>
 							</div>
 						</div>
@@ -112,7 +140,14 @@ function googleTranslateElementInit() {
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel">Register</h4>
+								<h4 class="modal-title" id="myModalLabel">
+									<?php
+										require "bin/connect.php";
+										$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 5");
+										$row = $result->fetch_assoc();
+										echo $row[$_SESSION["language"]];
+									?>
+								</h4>
 								</div>
 							<form id="register_form" class="form-inline" action="bin/sign_up.php" method="post">
 								<div class="modal-body">
@@ -130,7 +165,14 @@ function googleTranslateElementInit() {
 											</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary">Submit</button>
+									<button type="submit" class="btn btn-primary">
+										<?php
+											require "bin/connect.php";
+											$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 10");
+											$row = $result->fetch_assoc();
+											echo $row[$_SESSION["language"]];
+										?>
+									</button>
 							</form>
 							</div>
 						</div>
@@ -156,7 +198,14 @@ function googleTranslateElementInit() {
 											</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary">Submit</button>
+									<button type="submit" class="btn btn-primary">
+										<?php
+											require "bin/connect.php";
+											$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 10");
+											$row = $result->fetch_assoc();
+											echo $row[$_SESSION["language"]];
+										?>
+									</button>
 										</form>
 							</div>
 						</div>
@@ -187,7 +236,14 @@ function googleTranslateElementInit() {
 
 									<form action="" class="search-form">
 										<div class="form-group has-feedback">
-											<label for="search" class="sr-only">Search</label>
+											<label for="search" class="sr-only">
+												<?php
+													require "bin/connect.php";
+													$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 11");
+													$row = $result->fetch_assoc();
+													echo $row[$_SESSION["language"]];
+												?>
+											</label>
 											<input type="text" class="form-control" name="search" id="search" placeholder="search">
 												<span class="glyphicon glyphicon-search form-control-feedback"></span>
 										</div>
