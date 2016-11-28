@@ -3,7 +3,6 @@
 	if (!isset($_SESSION["language"]))
 		$_SESSION["language"] = "English";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -244,7 +243,7 @@
 									</form>
 
 								</li>
-                    <li>
+                    <li class="active">
                         <a href="about.php">
 						<?php
 							require "bin/connect.php";
@@ -300,122 +299,167 @@
 				
 				
     </nav>
-		
 
-    <!-- Header Carousel -->
-    <header id="myCarousel" class="carousel slide" >
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <div class="fill" style="background-image:url('images/movieKitten01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('images/colage01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 2");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('images/convo01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 3");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-    </header>
-
+	
+	
     <!-- Page Content -->
     <div class="container">
-        <!-- Marketing Icons Section -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">
-                <?php
-					require "bin/connect.php";
-					$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
-					$row = $result->fetch_assoc();
-					echo $row[$_SESSION["language"]];
-				?>
-                </h1>
-            </div>
-			
-			<?php
-			
-		require "bin/connect.php";
+<?php
+
+
+	require "bin/connect.php";
+
+		$id = mysqli_real_escape_string($conn, $_GET['id']);
     
 
-		$result = mysqli_query($conn,"SELECT HEX(Id), Name, HEX(UserId), Text, FilePath, Rating FROM movies ORDER BY RAND() LIMIT 3");
+		$result = mysqli_query($conn,"SELECT Name, HEX(UserId), Text, FilePath, Rating FROM movies WHERE Id = unhex('".$id."') ");
 		
-		while ($row = mysqli_fetch_array($result)) 
-		{ 		
-			
-			$userId=$row[2];
-			$result2 = mysqli_query($conn,"SELECT Name FROM users WHERE HEX(Id) = '".$userId."' ");
-			$row2=mysqli_fetch_array($result2);
-			$userr=$row2[0];
-			$small = substr($row[3], 0, 300);
-			echo'
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><img src="images/movieTape01.png" style="width:1.5em;">'.$row[1].'</img></h4>
-                    </div>
-                    <div class="panel-body">
-					<center>
-											  <a href="movie-post.php?id='.$row[0].'">
-													<img class="img-responsive img-portfolio img-hover" style="height:300px;" src="bin/'.$row[4].'" alt="">
-												</a>
-					</center>
-                         <p>'.$small.'</p>
-                        <a href="movie-post.php?id='.$row[0].'" class="btn btn-default">Read More</a>
-                    </div>
-                </div>
+		
+		if($row = mysqli_fetch_array($result))
+		{
+		$userId=$row[1];
+		$result2 = mysqli_query($conn,"SELECT Name FROM users WHERE HEX(Id) = '".$userId."' ");
+		$row2=mysqli_fetch_array($result2);
+		$userr=$row2[0];
+		$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 19");
+		$byRow = $result->fetch_assoc();
+echo'
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">'.$row[0].'
+                    <small>'.$byRow[$_SESSION["language"]].'
+					<a href="#">'.$userr.'</a>
+                    </small>
+                </h1>
             </div>
-			';
-		}
-            ?>
         </div>
         <!-- /.row -->
 
+        <!-- Content Row -->
+        <div class="row">
+
+		<!-- Blog Sidebar Widgets Column -->
+            <div style="float:right;" class="col-md-4">
+
+
+                <!-- Side Widget Well -->
+                <div class="well" style="  padding:0px;" >
+                   <img style=" height: auto; width: 100%;" src="bin/'.$row[3].'" alt="">
+                </div>
+
+            </div>
+		
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+
+
+
+                <!-- Rating -->
+                <input id="input-1"  name="input-1" class="rating rating-disabled " readonly data-min="0" data-max="5" data-step="1" value="'.$row[4].'" data-show-clear="false" data-show-caption="false"  data-size="xs">
+
+                <hr>
+
+                <!-- Post Content -->
+                <p class="lead"><pre style="white-space: pre-wrap; word-break: keep-all; background:white; border:none;">'.$row[2].'</pre></p>
+
+                <hr>
+
+                <!-- Blog Comments -->
+
+				
+                <!-- Comments Form -->
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+                    <form role="form" action="" method="post">
+                        <div class="form-group">
+                            <textarea name="commentForm" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <hr>
+	';
+	
+	$javascriptText='<script>
+	alertBox = document.getElementById("alerter");
+	alertBoxMessage = document.getElementById("alerterMessage");
+	alertBoxMessage.innerHTML = "In order to post comments please log in!";
+	alertBox.style.display = "block";
+			</script>';
+			
+		$javascriptText2='<script>
+	alertBox = document.getElementById("alerter");
+	alertBoxMessage = document.getElementById("alerterMessage");
+	alertBoxMessage.innerHTML = "This account it is not valid anymore!";
+	alertBox.style.display = "block";
+			</script>';
+	
+	if(isset($_POST['commentForm']))
+	{ 
+		if(isset($_SESSION['user']))
+		{	
+			$auxUser=$_SESSION['user'];
+			$commentUserIdGet = mysqli_query($conn,"SELECT HEX(Id) FROM users WHERE Name = '".$auxUser."' ");
+			$commentUserId=mysqli_fetch_array($commentUserIdGet);
+			if($commentUserId)
+			{
+				$textt=mysqli_real_escape_string($conn, $_POST['commentForm']);
+				mysqli_query($conn,"INSERT INTO coments (Id, Text, MovieId, UserId, Date) VALUES (unhex(replace(uuid(),'-','')), '".$textt."', unhex('".$id."'), unhex('".$commentUserId[0]."'), NOW())"); 
+			}
+			else
+			{
+				echo $javascriptText2;
+			}			
+		}
+		else
+		{
+			echo $javascriptText;
+		}
+		unset($_POST['commentForm']);
+	}    
+
+	$result3 = mysqli_query($conn,"SELECT Text, HEX(UserId), Date FROM coments WHERE MovieId = unhex('".$id."') ORDER BY Date ");
+	if($result3)
+	{
+		while($row3=mysqli_fetch_array($result3))
+		{
+			$dat=$row3[1];
+			$result4 = mysqli_query($conn,"SELECT Name FROM users WHERE Id = unhex('".$dat."')");
+			$row4=mysqli_fetch_array($result4);
+		
+			echo'				
+                <!-- Posted Comments -->
+
+                <!-- Comment -->
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img height="64" width="64" class="media-object" src="images/cat-shape.png" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">'.$row4[0].'
+                            <small>'.$row3[2].'</small>
+                        </h4>
+                        <p><pre style="white-space: pre-wrap; word-break: keep-all; background:white; border:none;">'.$row3[0].'</pre></p>
+                    </div>
+                </div>
+
+             <!-- Comment -->';
+		}
+	}
+echo'
+            </div>
+
+            
+
+        </div>
+        <!-- /.row -->
+		';
+
+		}
+?>
         <hr>
 
         <!-- Footer -->
@@ -430,7 +474,7 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery -->
+     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 	
 
@@ -439,17 +483,9 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 3000 //changes the speed
-    })
-    </script >
 
-	<script src="js/jquery.js"></script>
-	<script src="js/userServices.js"></script>
 	<script src="js/movieServices.js"></script> 
-	
+
 </body>
 
 </html>

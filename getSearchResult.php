@@ -3,7 +3,6 @@
 	if (!isset($_SESSION["language"]))
 		$_SESSION["language"] = "English";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -300,90 +299,28 @@
 				
 				
     </nav>
-		
 
-    <!-- Header Carousel -->
-    <header id="myCarousel" class="carousel slide" >
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
+	<div class="container" >
+		<?php
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <div class="fill" style="background-image:url('images/movieKitten01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('images/colage01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 2");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('images/convo01.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>
-					<?php
-						require "bin/connect.php";
-						$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 3");
-						$row = $result->fetch_assoc();
-						echo $row[$_SESSION["language"]];
-					?>
-					</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-    </header>
-
-    <!-- Page Content -->
-    <div class="container">
-        <!-- Marketing Icons Section -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">
-                <?php
-					require "bin/connect.php";
-					$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 1");
-					$row = $result->fetch_assoc();
-					echo $row[$_SESSION["language"]];
-				?>
-                </h1>
-            </div>
-			
-			<?php
-			
 		require "bin/connect.php";
+
+		$movie = mysqli_real_escape_string($conn, $_POST['search']);
+		$result = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 20");
+		$row = $result->fetch_assoc();
+		
+		echo'
+
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">'.$row[$_SESSION["language"]].'
+						'.$movie.'
+						</h1>
+					</div>
+				</div>';
     
 
-		$result = mysqli_query($conn,"SELECT HEX(Id), Name, HEX(UserId), Text, FilePath, Rating FROM movies ORDER BY RAND() LIMIT 3");
+		$result = mysqli_query($conn,"SELECT HEX(Id), Name, HEX(UserId), Text, FilePath, Rating FROM movies WHERE Name LIKE '$movie%'");
 		
 		while ($row = mysqli_fetch_array($result)) 
 		{ 		
@@ -393,30 +330,41 @@
 			$row2=mysqli_fetch_array($result2);
 			$userr=$row2[0];
 			$small = substr($row[3], 0, 300);
-			echo'
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><img src="images/movieTape01.png" style="width:1.5em;">'.$row[1].'</img></h4>
-                    </div>
-                    <div class="panel-body">
-					<center>
-											  <a href="movie-post.php?id='.$row[0].'">
-													<img class="img-responsive img-portfolio img-hover" style="height:300px;" src="bin/'.$row[4].'" alt="">
-												</a>
-					</center>
-                         <p>'.$small.'</p>
-                        <a href="movie-post.php?id='.$row[0].'" class="btn btn-default">Read More</a>
-                    </div>
-                </div>
+			$result3 = mysqli_query($conn, "SELECT * FROM langlabels WHERE id = 19");
+			$row3 = $result3->fetch_assoc();
+			echo '<div class="row" style="width:80%;">
+            <div class="col-md-5" style="width:30%;">
+                <a href="movie-post.php?id='.$row[0].'">
+                    <img class="img-responsive img-hover" src="bin/'.$row[4].'" alt="">
+                </a>
             </div>
-			';
-		}
-            ?>
-        </div>
-        <!-- /.row -->
+            <div class="col-md-6">
+                <h3>
 
-        <hr>
+                    <a href="movie-post.php?id='.$row[0].'">'.$row[1].'</a>
+                </h3>
+                <p>'.$row3[$_SESSION["language"]].' <a>'.$userr.'</a>
+                </p>
+                <p>'.$small.'</p>
+				<input id="input-1"  name="input-1" class="rating rating-disabled " readonly data-min="0" data-max="5" data-step="1" value="'.$row[5].'" data-show-clear="false" data-show-caption="false"  data-size="xs">
+                <br/>
+				<a class="btn btn-primary"  href="movie-post.php?id='.$row[0].'">Read More <i class="fa fa-angle-right"></i></a>
+			
+            </div>
+        </div>
+		
+		<hr>';
+		
+
+		}
+		
+		
+		
+		
+		mysqli_close($conn);
+
+		?>
+
 
         <!-- Footer -->
         <footer>
@@ -430,26 +378,11 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-	
 
-<script src="js/star-rating.js" type="text/javascript"></script>
-
+	<script src="js/star-rating.js" type="text/javascript"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 3000 //changes the speed
-    })
-    </script >
-
-	<script src="js/jquery.js"></script>
-	<script src="js/userServices.js"></script>
-	<script src="js/movieServices.js"></script> 
-	
 </body>
 
 </html>
